@@ -3,8 +3,25 @@ html
   head
     title=title 
     meta(name='viewport' content='width=device-width, initial-scale=1')
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:500,700|Roboto:400,500,700,900")
+    link(rel="stylesheet" href="/style.css")
   body.buzzerBody
     header
       h1=title
+    
+    div.container
+      form.view.buzzerJoin
+        h2="Let's play!"
+        input(type="text" name="name" placeholder="Your name" required='required')
+        ol.listUsers
+          each user in users
+            li=`${user.name}`
+        span.lblErrorMsg.hidden
+        button(type='submit')="Join"
+
+      div.view.buzzerJoined.hidden
+        button.btnBuzzer.buzzer()='Buzz!!!'
+        p.buzzerJoined-info=""
+     
     script(src="/socket.io/socket.io.js")
     script(src="/join.js")
