@@ -50,8 +50,9 @@ header {
   margin-bottom: 0;
 }
 
-span.lblErrMsg {
+span.lblErrorMsg {
   color:red;
+  font-weight: bold;
 }
 
 .buzzer-mode {

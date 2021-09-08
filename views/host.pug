@@ -1,0 +1,22 @@
+doctype html
+html 
+  head
+    title=title
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" href="/style.css")
+  body
+    header
+      title=title
+
+    div.container
+      h2.buzzActive=`${users.length} users joined`
+      ol.buzzList
+        each buzz in buzzes
+          li=`${buzz}`
+      button.btnClear='Clear'
+      ol.userList
+        each user in users
+          li=`${user}`
+      button.btnClearUsers='Clear Users'
+  script(src="/socket.io/socket.io.js")
+  script(src="/host.js")

@@ -16,10 +16,7 @@ let data = {
 
 const getData = () => ({
   users: [...data.users],
-  buzzes: [...data.buzzes].map(b => {
-    const [name, id] = b.split('-');
-    return {name, id};
-  })
+  buzzes: [...data.buzzes]
 });
 
 const getUsers = () => ({
@@ -29,7 +26,7 @@ const getUsers = () => ({
 app.use(express.static('public'));
 app.set('view engine', 'pug');
 
-app.get('/', (req, res) => res.render('index', Object.assign({title}, getUsers())));
+app.get('/', (req, res) => res.render('index', Object.assign({ title }, getUsers())));
 app.get('/host', (req, res) => res.render('host', Object.assign({ title }, getData())));
 
 io.on('connection', (socket) => {
@@ -38,20 +35,32 @@ io.on('connection', (socket) => {
   });
   socket.on('join', (user) => {
     data.users.add(user.name);
-    io.emit('active', [...data.users].length);
+    io.emit('active', [...data.users]);
     console.log(`${user.name} joined!`);
   });
   socket.on('buzz', (user) => {
-    data.buzzes.add(user.name);
-    console.log(data.buzzes);
-    io.emit('buzzes', [...data.buzzes]);
-    console.log(`${user.name} buzzed in!!!`);
+    if(data.users.has(user.name)) {
+      data.buzzes.add(user.name);
+      io.emit('buzzes', [...data.buzzes]);
+      console.log(`${user.name} buzzed in!!!`);
+    } else {
+      console.log('user already kicked out');
+    }
   });
   socket.on('clear', () => {
     data.buzzes = new Set();
-    io.emit('buzzes', [...data.buzzess]);
-    console.log('buzzes cleared.');
-  })
+    io.emit('buzzes', [...data.buzzes]);    
+    console.log('buzzes cleared.', data.buzzes);
+  });
+  socket.on('clearUsers', () => {
+    io.emit('exitUser', [...data.users]);
+    data.users = new Set();
+    io.emit('active', [...data.users]); 
+    console.log('users cleared');
+  });
+  socket.on('pingUser', (user) => {
+    console.log('User:', user);
+  });
 });
 
 server.listen(3000, () => {

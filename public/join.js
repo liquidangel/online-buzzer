@@ -22,11 +22,12 @@ const saveUserInfo = () => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   user.name = form.querySelector('[name=name]').value;
-  // if(users.has(user.name)) {
-  //   errMsg.innerHTML = 'User name is already taken.';
-  //   errMsg.classList.remove('hidden');
-  //   return false;
-  // }
+  if(users.indexOf(user.name) != -1) {
+    errMsg.innerHTML = "Username already in use!";
+    errMsg.classList.remove('hidden');
+    return false;
+  }
+  errMsg.innerHTML = "";
   errMsg.classList.add('hidden');
   socket.emit('join', user);
   saveUserInfo();
@@ -39,5 +40,13 @@ form.addEventListener('submit', (e) => {
 buzzer.addEventListener('click', (e) => {
   socket.emit('buzz', user);
 });
+
+socket.on('exitUser', (users) => {
+  socket.emit('pingUser', {user: user.name});
+  if(users.indexOf(user.name)) {
+    location.href = "/";
+  }
+})
+
 
 getUserInfo();
