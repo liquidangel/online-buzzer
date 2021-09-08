@@ -53,11 +53,15 @@ io.on('connection', (socket) => {
     console.log('buzzes cleared.', data.buzzes);
   });
   socket.on('clearUsers', () => {
-    io.emit('exitUser', [...data.users]);
+    io.emit('exitUser');
     data.users = new Set();
     io.emit('active', [...data.users]); 
     console.log('users cleared');
   });
+  socket.on('kick', (user) => {
+    console.log('Kick', user);
+    io.emit('kickUser', user);
+  })
   socket.on('pingUser', (user) => {
     console.log('User:', user);
   });

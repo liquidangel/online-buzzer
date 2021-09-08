@@ -4,6 +4,7 @@ const buzzList = document.querySelector(".buzzList");
 const userList = document.querySelector(".userList");
 const clear = document.querySelector(".btnClear");
 const clearUsers = document.querySelector(".btnClearUsers");
+const kickUser = document.querySelector(".btnKickUser");
 
 socket.on("active", (users) => {
   active.innerText = `${users.length} users joined`;
@@ -16,6 +17,11 @@ socket.on("buzzes", (buzzes) => {
 
 clear.addEventListener('click', () => {
   socket.emit("clear");
+})
+
+kickUser.addEventListener('click', () => {
+  console.log('Kick Clicked');
+  socket.emit('kick', 'Paulo');
 })
 
 clearUsers.addEventListener('click', () => {

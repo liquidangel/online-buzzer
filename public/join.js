@@ -43,10 +43,14 @@ buzzer.addEventListener('click', (e) => {
 
 socket.on('exitUser', (users) => {
   socket.emit('pingUser', {user: user.name});
-  if(users.indexOf(user.name)) {
+  location.href = "/";
+});
+
+socket.on('kickUser', (kickUser) => {
+  console.log('kickUser', kickUser);
+  if(user.name == kickUser) {
     location.href = "/";
   }
 })
-
 
 getUserInfo();
