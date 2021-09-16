@@ -7,6 +7,7 @@ const joinedInfo = document.querySelector('.buzzerJoined-info');
 const errMsg = document.querySelector('.lblErrorMsg');
 
 let user = {};
+let userList = [];
 
 const getUserInfo = () => {
   user = JSON.parse(localStorage.getItem('user')) || {};
@@ -22,7 +23,9 @@ const saveUserInfo = () => {
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   user.name = form.querySelector('[name=name]').value;
-  if(users.indexOf(user.name) != -1) {
+  console.log('Username is ', user.name);
+  if(userList.indexOf(user.name) != -1) {
+    console.log('Username is in use');
     errMsg.innerHTML = "Username already in use!";
     errMsg.classList.remove('hidden');
     return false;
@@ -30,7 +33,7 @@ form.addEventListener('submit', (e) => {
   errMsg.innerHTML = "";
   errMsg.classList.add('hidden');
   socket.emit('join', user);
-  saveUserInfo();
+  // saveUserInfo();
   joinedInfo.innerText = `${user.name}`;
   form.classList.add('hidden');
   joined.classList.remove('hidden');
@@ -53,4 +56,9 @@ socket.on('kickUser', (kickUser) => {
   }
 })
 
-getUserInfo();
+socket.on('active', (users) => {
+  userList = users;
+  console.log(userList);
+})
+
+//getUserInfo();

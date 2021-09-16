@@ -59,8 +59,10 @@ io.on('connection', (socket) => {
     console.log('users cleared');
   });
   socket.on('kick', (user) => {
+    data.users.delete(user);
     console.log('Kick', user);
     io.emit('kickUser', user);
+    io.emit('active', [...data.users]); 
   })
   socket.on('pingUser', (user) => {
     console.log('User:', user);

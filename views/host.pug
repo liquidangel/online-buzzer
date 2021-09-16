@@ -10,14 +10,15 @@ html
 
     div.container
       h2.buzzActive=`${users.length} users joined`
+      h3="Buzzed in users"
       ol.buzzList
         each buzz in buzzes
           li=`${buzz}`
       button.btnClear='Clear'
+      h3="Active users"
       ol.userList
         each user in users
           li=`${user}`
       button.btnClearUsers='Clear Users'
-      button.btnKickUser='Kick User'
   script(src="/socket.io/socket.io.js")
   script(src="/host.js")
