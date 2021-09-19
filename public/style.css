@@ -134,3 +134,7 @@ button:focus {
 .secondary:hover {
   background-color: rgb(44, 75, 255);
 }
+
+.buzzList, .userList {
+  font-weight: bold;
+}

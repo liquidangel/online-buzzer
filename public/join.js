@@ -9,22 +9,10 @@ const errMsg = document.querySelector('.lblErrorMsg');
 let user = {};
 let userList = [];
 
-const getUserInfo = () => {
-  user = JSON.parse(localStorage.getItem('user')) || {};
-  if(user.name) {
-    form.querySelector('[name=name]').value = user.name
-  }
-}
-
-const saveUserInfo = () => {
-  localStorage.setItem('user', JSON.stringify(user));
-}
-
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   user.name = form.querySelector('[name=name]').value;
-  console.log('Username is ', user.name);
-  if(userList.indexOf(user.name) != -1) {
+  if(userList.indexOf(user.name.toUpperCase()) != -1) {
     console.log('Username is in use');
     errMsg.innerHTML = "Username already in use!";
     errMsg.classList.remove('hidden');
@@ -57,8 +45,20 @@ socket.on('kickUser', (kickUser) => {
 })
 
 socket.on('active', (users) => {
-  userList = users;
-  console.log(userList);
+  userList = users.map(function(user) {
+    return user.toUpperCase();
+  });
+  console.log('AvtiveUsers', userList);
 })
 
-//getUserInfo();
+socket.on('sendUsers', (users) => {
+  userList = users.map(function(user) {
+    return user.toUpperCase();
+  });
+  console.log('UserList', userList);
+})
+
+var getUsers = function() {
+  socket.emit('getUsers');
+  console.log('onload');
+}

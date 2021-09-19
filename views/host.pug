@@ -18,7 +18,8 @@ html
       h3="Active users"
       ol.userList
         each user in users
-          li=`${user}`
+          li
+            a(href='#', onclick=`kickUser('${user}')`) #{user}
       button.btnClearUsers='Clear Users'
   script(src="/socket.io/socket.io.js")
   script(src="/host.js")

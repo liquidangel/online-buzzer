@@ -7,7 +7,7 @@ html
     link(rel="stylesheet" href="/style.css")
     script.
       var users = !{JSON.stringify(users)}
-  body.buzzerBody
+  body.buzzerBody(onload='getUsers()')
     header
       h1=title
     

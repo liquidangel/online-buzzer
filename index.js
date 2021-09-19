@@ -67,6 +67,10 @@ io.on('connection', (socket) => {
   socket.on('pingUser', (user) => {
     console.log('User:', user);
   });
+  socket.on('getUsers', () => {
+    io.emit('sendUsers', [...data.users]);
+    console.log('Sending user list');
+  })
 });
 
 server.listen(3000, () => {
